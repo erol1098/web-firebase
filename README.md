@@ -1,6 +1,6 @@
 # web-firebase
 
-> This library makes you to execute some Firebase web authentication processes easily.
+> This library makes you to execute some Firebase web authentication processes and Firestore CRUD operations easily.
 
 [![NPM](https://img.shields.io/npm/v/web-firebase.svg)](https://www.npmjs.com/package/web-firebase) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -13,10 +13,10 @@ npm install web-firebase
 ## Usage
 
 ```jsx
-import { useFirebase, initialize } from 'web-firebase'
+import { useAuth, useFirestore, initialize } from 'web-firebase'
 ```
 
-> First, execute 'initialize' method with your web app's Firebase configuration to get 'auth' variable.
+> First, execute 'initialize' method with your web app's Firebase configuration to get 'auth' and 'db' variables.
 
 ```jsx
 const firebaseConfig = {
@@ -28,10 +28,10 @@ const firebaseConfig = {
   messagingSenderId: 'SENDER_ID',
   appId: 'APP_ID'
 }
-const auth = initialize(firebaseConfig)
+const { auth, db } = initialize(firebaseConfig)
 ```
 
-> And then, you can use useFirebase hook with this "auth" variable.
+> And then, you can use 'useAuth' hook with this 'auth' variable and use 'useFirestore' hook with this 'db' variable.
 
 ```jsx
 const {
@@ -43,8 +43,17 @@ const {
   updateUserProfile,
   googleAuth
   error // Error string variable
-} = useFirebase(auth)
+} = useAuth(auth)
+
+const {
+  addNewEntry,
+  getEntries,
+  deleteEntry,
+  updateEntry
+  } = useFirestore()
 ```
+
+> Documentation will be coming!
 
 ## License
 
