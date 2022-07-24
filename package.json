@@ -1,7 +1,7 @@
 {
   "name": "web-firebase",
   "version": "1.0.0",
-  "description": "Made with create-react-library",
+  "description": "This library makes you to execute some Firebase web authentication processes easily.",
   "author": "erol1098",
   "license": "MIT",
   "repository": "erol1098/web-firebase",

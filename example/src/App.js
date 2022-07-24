@@ -1,10 +1,15 @@
+import { Container, ThemeProvider, useTheme } from '@mui/material'
 import React from 'react'
-
-import { ExampleComponent } from 'web-firebase'
-import 'web-firebase/dist/index.css'
+import AppRouter from './router/AppRouter'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return (
+    <ThemeProvider theme={useTheme()}>
+      <Container maxWidth='lg'>
+        <AppRouter />
+      </Container>
+    </ThemeProvider>
+  )
 }
 
 export default App
