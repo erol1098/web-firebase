@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   Typography,
   TextField,
@@ -9,17 +9,23 @@ import {
   FormControl,
   Stack
 } from '@mui/material'
-import useFirestore from '../hooks/useFirestore'
+import { useFirestore } from 'web-firebase'
+import UserContext from '../context/user-context'
+import AuthContext from '../context/auth-context'
 const InputPanel = () => {
   const [userName, setUserName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [gender, setGender] = useState('')
-
-  const { addNewEntry, getEntries } = useFirestore()
+  const { db, setContacts } = useContext(UserContext)
+  const { collectionName } = useContext(AuthContext)
+  const { addNewEntry, getEntries } = useFirestore(db)
   const submitHandler = (e) => {
     e.preventDefault()
-    addNewEntry({ userName, phoneNumber, gender })
-    getEntries()
+    addNewEntry(collectionName, { userName, phoneNumber, gender })
+    getEntries(collectionName).then((res) => setContacts(res))
+    setUserName('')
+    setPhoneNumber('')
+    setGender('')
   }
   return (
     <Stack

@@ -10,6 +10,15 @@ import {
   GoogleAuthProvider,
   signInWithPopup
 } from 'firebase/auth'
+import {
+  getFirestore,
+  collection,
+  doc,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  updateDoc
+} from 'firebase/firestore'
 export const useAuth = (auth) => {
   const [userInfo, setUserInfo] = useState(null)
   const [error, setError] = useState(null)
@@ -95,8 +104,41 @@ export const useAuth = (auth) => {
     error
   }
 }
+export const useFirestore = (db) => {
+  const addNewEntry = async (collectionName, data) => {
+    try {
+      await addDoc(collection(db, collectionName), data)
+    } catch (error) {
+      console.error('Error adding document: ', error)
+    }
+  }
+  const getEntries = async (collectionName) => {
+    try {
+      const querySnapshot = await getDocs(collection(db, collectionName))
+      return querySnapshot?.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data()
+      }))
+    } catch (error) {
+      console.error('Error reading document: ', error)
+    }
+  }
+
+  const deleteEntry = async (collectionName, selectedId) => {
+    await deleteDoc(doc(db, collectionName, selectedId))
+  }
+
+  const updateEntry = async (collectionName, id, contact) => {
+    await updateDoc(doc(db, collectionName, id), {
+      ...contact
+    })
+  }
+
+  return { addNewEntry, getEntries, deleteEntry, updateEntry }
+}
 export const initialize = (config) => {
   const app = initializeApp(config)
   const auth = getAuth(app)
-  return auth
+  const db = getFirestore(app)
+  return { auth, db }
 }

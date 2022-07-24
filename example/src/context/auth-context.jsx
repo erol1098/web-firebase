@@ -8,11 +8,11 @@ export const AuthContextProvider = (props) => {
   const { userObserver, userInfo, error } = useAuth(auth) //! example
 
   useEffect(() => {
-    console.log('error', error)
     setCollectionName(userInfo?.uid)
   }, [userInfo, error])
+
   useEffect(() => {
-    const result = initialize({
+    const { auth: result } = initialize({
       apiKey: process.env.REACT_APP_API_KEY,
       authDomain: process.env.REACT_APP_AUTH_DOMAIN,
       projectId: process.env.REACT_APP_PROJECT_ID,

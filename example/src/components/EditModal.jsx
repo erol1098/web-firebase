@@ -10,12 +10,13 @@ import {
   MenuItem,
   Stack
 } from '@mui/material'
-import useFirestore from '../hooks/useFirestore'
+import { useFirestore } from 'web-firebase'
 import UserContext from '../context/user-context'
 import AuthContext from '../context/auth-context'
 
 const EditModal = () => {
-  const { currentData, setCurrentData } = useContext(UserContext)
+  const { currentData, setCurrentData, setContacts, db } =
+    useContext(UserContext)
   const { collectionName } = useContext(AuthContext)
   const [userName, setUserName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -23,18 +24,18 @@ const EditModal = () => {
   const [id, setId] = useState('')
 
   useEffect(() => {
-    currentData && setUserName(currentData[0])
-    currentData && setPhoneNumber(currentData[1])
-    currentData && setGender(currentData[2])
-    currentData && setId(currentData[3])
+    currentData && setUserName(currentData.data.userName)
+    currentData && setPhoneNumber(currentData.data.phoneNumber)
+    currentData && setGender(currentData.data.gender)
+    currentData && setId(currentData.id)
   }, [currentData])
 
-  const { getEntries, updateEntry } = useFirestore()
+  const { getEntries, updateEntry } = useFirestore(db)
 
   const submitHandler = (e) => {
     e.preventDefault()
-    updateEntry(collectionName, { userName, phoneNumber, gender, id })
-    getEntries()
+    updateEntry(collectionName, id, { userName, phoneNumber, gender })
+    getEntries(collectionName).then((res) => setContacts(res))
     handleClose()
     setCurrentData(null)
   }
