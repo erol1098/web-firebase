@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Grid, TextField, Button, Typography } from '@mui/material'
-import { useFirebase } from 'web-firebase'
+import { useAuth } from 'web-firebase'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../context/auth-context'
 const Login = () => {
@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const { auth } = useContext(AuthContext)
   const navigate = useNavigate()
-  const { signIn, googleAuth } = useFirebase(auth)
+  const { signIn, googleAuth } = useAuth(auth)
 
   const submitHandler = (e) => {
     e.preventDefault()

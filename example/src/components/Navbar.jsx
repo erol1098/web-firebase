@@ -13,7 +13,7 @@ import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 import LoginIcon from '@mui/icons-material/Login'
 import { useNavigate } from 'react-router-dom'
-import { useFirebase } from 'web-firebase'
+import { useAuth } from 'web-firebase'
 import AuthContext from '../context/auth-context'
 import { AppBar, Container, Toolbar } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -22,7 +22,7 @@ import UserContext from '../context/user-context'
 export default function AccountMenu() {
   const { userInfo, auth } = useContext(AuthContext)
   const { setContacts } = useContext(UserContext)
-  const { logOut } = useFirebase(auth)
+  const { logOut } = useAuth(auth)
   const navigate = useNavigate()
   useContext(UserContext)
   const logOutHandler = () => {

@@ -10,10 +10,9 @@ import {
   GoogleAuthProvider,
   signInWithPopup
 } from 'firebase/auth'
-export const useFirebase = (auth) => {
+export const useAuth = (auth) => {
   const [userInfo, setUserInfo] = useState(null)
   const [error, setError] = useState(null)
-  // console.log(error)
   // Create User with email-password and display name
   const createUser = async (displayName, email, password, navigate = '') => {
     try {
