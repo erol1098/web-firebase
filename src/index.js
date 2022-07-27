@@ -7,6 +7,9 @@ import {
   onAuthStateChanged,
   updateProfile,
   updateEmail,
+  updatePassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
   signOut,
   GoogleAuthProvider,
   signInWithPopup
@@ -94,6 +97,28 @@ export const useAuth = (auth) => {
       setError(err)
     }
   }
+  const changePassword = async (password) => {
+    try {
+      await updatePassword(auth.currentUser, password)
+    } catch (err) {
+      setError(err)
+    }
+  }
+
+  const verifyEmail = async () => {
+    try {
+      await sendEmailVerification(auth.currentUser)
+    } catch (err) {
+      setError(err)
+    }
+  }
+  const resetPassword = async (mail) => {
+    try {
+      await sendPasswordResetEmail(auth, mail)
+    } catch (err) {
+      setError(err)
+    }
+  }
 
   const googleAuth = async (navigate = '') => {
     try {
@@ -115,6 +140,9 @@ export const useAuth = (auth) => {
     logOut,
     updateUserProfile,
     updateUserEmail,
+    changePassword,
+    verifyEmail,
+    resetPassword,
     googleAuth,
     error
   }

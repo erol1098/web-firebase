@@ -10,7 +10,13 @@ const Settings = () => {
     boxShadow: 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px'
   }
   const { auth } = useContext(AuthContext)
-  const { updateUserProfile, updateUserEmail } = useAuth(auth)
+  const {
+    updateUserProfile,
+    updateUserEmail,
+    changePassword,
+    verifyEmail,
+    resetPassword
+  } = useAuth(auth)
 
   //? Change User Info
   const [displayName, setDisplayName] = useState('')
@@ -32,6 +38,23 @@ const Settings = () => {
     updateUserEmail(email)
   }
 
+  //? Change Password
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmNewPassword, setConfirmNewPassword] = useState('')
+  const changePasswordHandler = (e) => {
+    if (newPassword === confirmNewPassword) changePassword(newPassword)
+    else alert('Passwords did not match.')
+  }
+
+  //? Send Verification Email
+  const verMailHandler = (e) => {
+    verifyEmail()
+  }
+  //? Reset Password Mail
+  const [resetMail, setResetMail] = useState('')
+  const resetMailHandler = (e) => {
+    resetPassword(resetMail)
+  }
   return (
     <Box
       display={'flex'}
@@ -113,32 +136,66 @@ const Settings = () => {
         </Box>
         <Box display={'flex'} flexDirection={'column'} gap={2}>
           <TextField
-            id='outlined-basic'
+            id='newPassword'
             type={'password'}
             label='New Password'
             variant='outlined'
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
             error={false}
+            required
             fullWidth
           />
           <TextField
-            id='outlined-basic'
+            id='confirmNewPassword'
             type={'password'}
             label='New Password Again'
             variant='outlined'
+            value={confirmNewPassword}
+            onChange={(e) => setConfirmNewPassword(e.target.value)}
             error={false}
+            required
             fullWidth
           />
-          <Button variant='contained' type='button' fullWidth>
+          <Button
+            variant='contained'
+            type='button'
+            onClick={changePasswordHandler}
+            fullWidth
+          >
             Set New Password
           </Button>
         </Box>
 
-        <Button variant='contained' type='button' fullWidth>
+        <Button
+          variant='contained'
+          type='button'
+          onClick={verMailHandler}
+          fullWidth
+        >
           Send Verification Email
         </Button>
-        <Button variant='contained' type='button' fullWidth>
-          Send Password Reset Email
-        </Button>
+
+        <Box display={'flex'} flexDirection={'column'} gap={2}>
+          <TextField
+            id='resetMail'
+            type={'email'}
+            label='Email'
+            variant='outlined'
+            value={resetMail}
+            onChange={(e) => setResetMail(e.target.value)}
+            error={false}
+            fullWidth
+          />
+          <Button
+            variant='contained'
+            type='button'
+            onClick={resetMailHandler}
+            fullWidth
+          >
+            Send Password Reset Email
+          </Button>
+        </Box>
       </Stack>
     </Box>
   )
