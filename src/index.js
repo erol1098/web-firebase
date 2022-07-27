@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   updateProfile,
+  updateEmail,
   signOut,
   GoogleAuthProvider,
   signInWithPopup
@@ -70,12 +71,25 @@ export const useAuth = (auth) => {
     signOut(auth)
   }
   // Update User Profile Display Name and Photo URL
-  const updateUserProfile = async (displayName, photoURL) => {
+  const updateUserProfile = async (
+    displayName = '',
+    // phoneNumber = '',
+    photoURL = ''
+  ) => {
     try {
       await updateProfile(auth.currentUser, {
         displayName,
+        // phoneNumber,
         photoURL
       })
+    } catch (err) {
+      setError(err)
+    }
+  }
+
+  const updateUserEmail = async (email) => {
+    try {
+      await updateEmail(auth.currentUser, email)
     } catch (err) {
       setError(err)
     }
@@ -100,6 +114,7 @@ export const useAuth = (auth) => {
     userObserver,
     logOut,
     updateUserProfile,
+    updateUserEmail,
     googleAuth,
     error
   }
@@ -114,23 +129,25 @@ export const useFirestore = (db) => {
   }
   const getEntries = async (collectionName) => {
     try {
-      const querySnapshot = await getDocs(collection(db, collectionName))
-      return querySnapshot?.docs.map((doc) => ({
-        id: doc.id,
-        data: doc.data()
-      }))
+      if (collectionName) {
+        const querySnapshot = await getDocs(collection(db, collectionName))
+        return querySnapshot?.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data()
+        }))
+      }
     } catch (error) {
       console.error('Error reading document: ', error)
     }
   }
 
-  const deleteEntry = async (collectionName, selectedId) => {
-    await deleteDoc(doc(db, collectionName, selectedId))
+  const deleteEntry = async (collectionName, id) => {
+    await deleteDoc(doc(db, collectionName, id))
   }
 
-  const updateEntry = async (collectionName, id, contact) => {
+  const updateEntry = async (collectionName, id, data) => {
     await updateDoc(doc(db, collectionName, id), {
-      ...contact
+      ...data
     })
   }
 

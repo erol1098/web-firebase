@@ -24,7 +24,7 @@ export const AuthContextProvider = (props) => {
     setAuth(result)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
+  console.log(userInfo)
   const values = { userInfo, auth, collectionName }
 
   return (

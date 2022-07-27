@@ -218,7 +218,7 @@ export default function AccountMenu() {
                 </ListItemIcon>
                 Add another account
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={(e) => navigate('/settings')}>
                 <ListItemIcon>
                   <Settings fontSize='small' />
                 </ListItemIcon>
