@@ -1,7 +1,7 @@
 {
   "name": "web-firebase",
-  "version": "1.1.0",
-  "description": "This library makes you to execute some Firebase web authentication and Firestore database processes easily.",
+  "version": "1.2.0",
+  "description": "This library makes you to execute some Firebase web authentication processes and Firestore database CRUD operations easily.",
   "author": "erol1098",
   "license": "MIT",
   "repository": "erol1098/web-firebase",

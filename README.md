@@ -41,16 +41,15 @@ const {
   userObserver,
   logOut,
   updateUserProfile,
-  googleAuth
+  updateUserEmail,
+  changePassword,
+  verifyEmail,
+  resetPassword,
+  googleAuth,
   error // Error string variable
 } = useAuth(auth)
 
-const {
-  addNewEntry,
-  getEntries,
-  deleteEntry,
-  updateEntry
-  } = useFirestore()
+const { addNewEntry, getEntries, deleteEntry, updateEntry } = useFirestore(db)
 ```
 
 > Documentation will be coming!
@@ -61,4 +60,4 @@ MIT © [erol1098](https://github.com/erol1098)
 
 ## Keywords
 
-Firebase,authentication, Firestore
+Firebase, authentication, Firestore, CRUD
