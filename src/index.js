@@ -54,8 +54,7 @@ export const useAuth = (auth) => {
       setUserInfo(userCredential)
       navigate && navigate('/')
     } catch (err) {
-      // console.log(err)
-      setError(err.message)
+      setError(err)
     }
   }
   // For each of your app's pages that need information about the signed-in user, attach an observer to the global authentication object. This observer gets called whenever the user's sign-in state changes.
@@ -124,7 +123,6 @@ export const useAuth = (auth) => {
     try {
       const provider = new GoogleAuthProvider()
       const result = await signInWithPopup(auth, provider)
-      // const credential = GoogleAuthProvider.credentialFromResult(result)
       setUserInfo(result.user)
       navigate && navigate('/')
     } catch (err) {
@@ -148,11 +146,12 @@ export const useAuth = (auth) => {
   }
 }
 export const useFirestore = (db) => {
+  const [error, setError] = useState(null)
   const addNewEntry = async (collectionName, data) => {
     try {
       await addDoc(collection(db, collectionName), data)
-    } catch (error) {
-      console.error('Error adding document: ', error)
+    } catch (err) {
+      setError(err)
     }
   }
   const getEntries = async (collectionName) => {
@@ -164,22 +163,30 @@ export const useFirestore = (db) => {
           data: doc.data()
         }))
       }
-    } catch (error) {
-      console.error('Error reading document: ', error)
+    } catch (err) {
+      setError(err)
     }
   }
 
   const deleteEntry = async (collectionName, id) => {
-    await deleteDoc(doc(db, collectionName, id))
+    try {
+      await deleteDoc(doc(db, collectionName, id))
+    } catch (err) {
+      setError(err)
+    }
   }
 
   const updateEntry = async (collectionName, id, data) => {
-    await updateDoc(doc(db, collectionName, id), {
-      ...data
-    })
+    try {
+      await updateDoc(doc(db, collectionName, id), {
+        ...data
+      })
+    } catch (err) {
+      setError(err)
+    }
   }
 
-  return { addNewEntry, getEntries, deleteEntry, updateEntry }
+  return { addNewEntry, getEntries, deleteEntry, updateEntry, error }
 }
 export const initialize = (config) => {
   const app = initializeApp(config)

@@ -35,7 +35,7 @@ const { auth, db } = initialize(firebaseConfig)
 
 ```jsx
 const {
-  userInfo, // User's authentication info
+  userInfo,
   createUser,
   signIn,
   userObserver,
@@ -46,10 +46,11 @@ const {
   verifyEmail,
   resetPassword,
   googleAuth,
-  error // Error string variable
+  error
 } = useAuth(auth)
 
-const { addNewEntry, getEntries, deleteEntry, updateEntry } = useFirestore(db)
+const { addNewEntry, getEntries, deleteEntry, updateEntry, error } =
+  useFirestore(db)
 ```
 
 > Documentation will be coming!
@@ -60,4 +61,4 @@ MIT © [erol1098](https://github.com/erol1098)
 
 ## Keywords
 
-Firebase, authentication, Firestore, CRUD
+Firebase, Authentication, Firestore, CRUD Operations
