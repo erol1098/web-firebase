@@ -12,48 +12,84 @@ npm install web-firebase
 
 ## Usage
 
+### Add a custom hook named "useFirebase" to your project
+
+### Paste this entire code in this custom hook.
+
+### Arrange .env file according to this custom hook.
+
 ```jsx
+import { useState, useEffect } from 'react'
 import { useAuth, useFirestore, initialize } from 'web-firebase'
-```
 
-> First, execute 'initialize' method with your web app's Firebase configuration to get 'auth' and 'db' variables.
+const useFirebase = () => {
+  const [auth, setAuth] = useState(null)
+  const [db, setDb] = useState(null)
 
-```jsx
-const firebaseConfig = {
-  apiKey: 'API_KEY',
-  authDomain: 'PROJECT_ID.firebaseapp.com',
-  databaseURL: 'https://DATABASE_NAME.firebaseio.com',
-  projectId: 'PROJECT_ID',
-  storageBucket: 'PROJECT_ID.appspot.com',
-  messagingSenderId: 'SENDER_ID',
-  appId: 'APP_ID'
+  const { userObserver, userInfo } = useAuth(auth)
+
+  useEffect(() => {
+    const { auth: authRes, db: dbRes } = initialize({
+      apiKey: process.env.REACT_APP_API_KEY,
+      authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+      projectId: process.env.REACT_APP_PROJECT_ID,
+      storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+      messagingSenderId: process.env.REACT_APP_STORAGE_BUCKET,
+      appId: process.env.REACT_APP_APP_ID
+    })
+    userObserver(authRes)
+    setAuth(authRes)
+    setDb(dbRes)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userInfo])
+
+  //? For Authentication Processes
+  const {
+    createUser,
+    signIn,
+    googleAuth,
+    updateUserProfile,
+    updateUserEmail,
+    changePassword,
+    verifyEmail,
+    resetPassword,
+    logOut,
+    error: errorAuth
+  } = useAuth(auth)
+
+  //? For Firestore Database CRUD Operations
+  const {
+    addNewEntry,
+    getEntries,
+    updateEntries,
+    deleteEntry,
+    error: errorDb
+  } = useFirestore(db)
+
+  return {
+    //? Authentication
+    createUser,
+    signIn,
+    googleAuth,
+    updateUserProfile,
+    updateUserEmail,
+    changePassword,
+    verifyEmail,
+    resetPassword,
+    logOut,
+    errorAuth,
+    userInfo,
+
+    //? Firestore
+    addNewEntry,
+    getEntries,
+    updateEntries,
+    deleteEntry,
+    errorDb
+  }
 }
-const { auth, db } = initialize(firebaseConfig)
+export default useFirebase
 ```
-
-> And then, you can use 'useAuth' hook with this 'auth' variable and use 'useFirestore' hook with this 'db' variable.
-
-```jsx
-const {
-  userInfo,
-  createUser,
-  signIn,
-  userObserver,
-  logOut,
-  updateUserProfile,
-  updateUserEmail,
-  changePassword,
-  verifyEmail,
-  resetPassword,
-  googleAuth,
-  error
-} = useAuth(auth)
-
-const { addNewEntry, getEntries, deleteEntry, updateEntry, error } =
-  useFirestore(db)
-```
-
-> Documentation will be coming!
 
 ## License
 

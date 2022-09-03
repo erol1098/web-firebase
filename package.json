@@ -1,10 +1,18 @@
 {
   "name": "web-firebase",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "This library makes you to execute some Firebase web authentication processes and Firestore database CRUD operations easily.",
   "author": "erol1098",
   "license": "MIT",
   "repository": "erol1098/web-firebase",
+  "keywords": [
+    "Firebase",
+    "Firestore",
+    "Authentication",
+    "CRUD",
+    "React",
+    "Database"
+  ],
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
