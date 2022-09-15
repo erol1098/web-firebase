@@ -21,7 +21,9 @@ const InputPanel = () => {
   const { addNewEntry, getEntries } = useFirestore(db)
   const submitHandler = (e) => {
     e.preventDefault()
-    addNewEntry(collectionName, { userName, phoneNumber, gender })
+    addNewEntry(collectionName, { userName, phoneNumber, gender }).then((res) =>
+      console.log(res)
+    )
     getEntries(collectionName).then((res) => setContacts(res))
     setUserName('')
     setPhoneNumber('')

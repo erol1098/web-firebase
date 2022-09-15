@@ -147,11 +147,14 @@ export const useAuth = (auth) => {
 }
 export const useFirestore = (db) => {
   const [error, setError] = useState(null)
+
   const addNewEntry = async (collectionName, data) => {
     try {
-      await addDoc(collection(db, collectionName), data)
+      const docRef = await addDoc(collection(db, collectionName), data)
+      return docRef.id
     } catch (err) {
       setError(err)
+      return null
     }
   }
   const getEntries = async (collectionName) => {
